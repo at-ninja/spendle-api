@@ -22,31 +22,33 @@ app = Flask(__name__)
 @app.route('/user', methods=['POST'])
 def generate_user():
     """Generate a new user and return the """
+    try:
+        # The data will be stored in request.form['key']
+        # retrieve from there and send response in
+        form = request.json
+        phone_num = form['phone']
+        first_name = form['account_info']['first']
+        last_name = form['account_info']['last']
+        zip_code = form['account_info']['zip']
 
-    # The data will be stored in request.form['key']
-    # retrieve from there and send response in
-    form = request.json
-    phone_num = form['phone']
-    first_name = form['account_info']['first']
-    last_name = form['account_info']['last']
-    zip_code = form['account_info']['zip']
+        # Use the Nessie API to figure out their id using first/last/zip
 
-    # Use the Nessie API to figure out their id using first/last/zip
+        nessie_api_id = ""
+        auth_token = uuid.uuid4()
 
-    nessie_api_id = ""
-    auth_token = uuid.uuid4()
+        # insert the data into the database
+        cur = CONN.cursor()
+        cur.execute('INSERT INTO Users Values ("{0}", "{1}", "{2}"");'.format(
+            str(auth_token), nessie_api_id, phone_num))
+        cur.commit()
+        response = make_response('{\
+	        "auth_token":"{0}",\
+        }'.format(str(auth_token)))
+        response.headers['Content-Type'] = 'application/json'
 
-    # insert the data into the database
-    cur = CONN.cursor()
-    cur.execute('INSERT INTO Users Values ("{0}", "{1}", "{2}"");'.format(
-        str(auth_token), nessie_api_id, phone_num))
-    cur.commit()
-    response = make_response('{\
-	    "auth_token":"{0}",\
-    }'.format(str(auth_token)))
-    response.headers['Content-Type'] = 'application/json'
-
-    return response
+        return response
+    except Exception as e:
+        return e.message
 
 @app.route('/location', methods=['POST'])
 def locationUpdate():
