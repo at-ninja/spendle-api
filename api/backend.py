@@ -73,7 +73,7 @@ def locationUpdate():
         return str(err)
     # Now, we want to somehow query data around the User
     # if they are close to any, send a twilio message
-    return
+    return ''
     
 
 @app.route('/aroundme', methods=['POST'])
