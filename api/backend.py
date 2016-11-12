@@ -40,7 +40,7 @@ def generate_user():
     #customers = [x for x in customers if (x['first_name'] == first_name and x['last_name'] == last_name) \
     #    and x['address']['zip'] == zip_code]
 
-    #nessie_api_id = customers[0]['_id']
+    nessie_api_id = ""#customers[0]['_id']
     auth_token = uuid.uuid4()
 
     # insert the data into the database
