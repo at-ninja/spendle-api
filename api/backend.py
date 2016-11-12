@@ -64,7 +64,7 @@ def locationUpdate():
         # if they are close to any, send a twilio message
         return 'Heartbeat'
     except Exception as e:
-        return e.message
+        return 'Something is borking'
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
@@ -97,7 +97,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     cur = CONN.cursor()
     cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\''.format(
         str(auth_token)))
-    
+
     nessie_id = ''.join(cur.fetchone())
 
     list_of_places = []
