@@ -25,7 +25,7 @@ def generate_user():
 
     # The data will be stored in request.form['key']
     # retrieve from there and send response in
-    form = request.form
+    form = request.json
     phone_num = form['phone']
     first_name = form['account_info']['first']
     last_name = form['account_info']['last']
@@ -53,7 +53,7 @@ def locationUpdate():
     """The user has given us a new data point. see if they are close to a bad place and text them"""
     
     # get the data out of the request
-    form = request.form
+    form = request.json
     auth_token = form['auth_token']
     lat, lng = form['lat'], form['lng']
     
@@ -68,7 +68,7 @@ def sendLocations():
     """The user has given us a new data point. see if they are close to a bad place and return results"""
     
     # get the data out of the request
-    form = request.form
+    form = request.json
     auth_token = form['auth_token']
     lat, lng = form['lat'], form['lng']
     
