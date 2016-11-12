@@ -3,10 +3,12 @@ import os
 import urlparse
 import uuid
 from flask import *
-from secret import *
 import psycopg2
 import requests
 import json
+
+API_KEY = os.environ.get('API_KEY')
+BASE_API = 'http://api.reimaginebanking.com'
 
 urlparse.uses_netloc.append("postgres")
 URL = urlparse.urlparse(os.environ["DATABASE_URL"])
