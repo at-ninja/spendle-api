@@ -95,7 +95,7 @@ def sendLocations():
 def get_popular_locations_near_me(auth_token, lat, lng):
     # Get their nessie id
     cur = CONN.cursor()
-    cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\''.format(
+    cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\';'.format(
         str(auth_token)))
 
     nessie_id = ''.join(cur.fetchone())
