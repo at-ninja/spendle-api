@@ -64,8 +64,9 @@ def locationUpdate():
     try:
         # get the data out of the request
         form = request.json
-        auth_token = form['auth_token']
-        lat, lng = form['lat'], form['lng']
+        #auth_token = form['auth_token']
+        #lat = form['lat']
+        #lng = form['lng']
     
         #list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
     except Exception as err:
@@ -82,7 +83,8 @@ def sendLocations():
     # get the data out of the request
     form = request.json
     auth_token = form['auth_token']
-    lat, lng = form['lat'], form['lng']
+    lat = form['lat']
+    lng = form['lng']
     
     list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
 
