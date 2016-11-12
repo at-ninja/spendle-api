@@ -67,7 +67,7 @@ def locationUpdate():
         auth_token = form['auth_token']
         lat, lng = form['lat'], form['lng']
     
-        list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
+        #list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
     except Exception as err:
         return str(err)
     # Now, we want to somehow query data around the User
