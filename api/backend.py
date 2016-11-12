@@ -106,15 +106,23 @@ def get_popular_locations_near_me(auth_token, lat, lng):
 
     nessie_id = ''.join(cur.fetchone())
     
-    list_of_merchants = get_request('/merchants?lat={0}&lng={1}&rad=1'.format(lat, lng))
+    list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng})
 
     return list_of_merchants
 
 def get_url(path):
     return '{0}{1}?key={2}'.format(BASE_API, path, API_KEY)
 
-def get_request(path):
-    return requests.get(get_url(path)).json()
+def get_request(path, params=None):
+    if params:
+        params.update({'key': API_KEY})
+    else:
+        params = {'key': API_KEY}
+
+    url = "%s%s?%s" % (BASE_API, path, urllib.urlencode(params))
+    result = urllib2.urlopen(url)
+    response_data = result.read()
+    return json.loads(response_data)
 
 def post_request(path, payload):
     return requests.post(
