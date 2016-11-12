@@ -99,7 +99,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
         str(auth_token)))
 
     nessie_id = ''.join(cur.fetchone())
-""""
+    """
     list_of_places = []
 
     return list_of_places
