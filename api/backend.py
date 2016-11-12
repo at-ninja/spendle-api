@@ -64,7 +64,7 @@ def locationUpdate():
         # if they are close to any, send a twilio message
         return 'Heartbeat'
     except Exception as err:
-        return 'Something is borking {0}'.format(err.message)
+        return 'Something is borking {0}'.format(str(err.args))
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
