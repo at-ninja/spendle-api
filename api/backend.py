@@ -62,7 +62,7 @@ def locationUpdate():
 
         # Now, we want to somehow query data around the User
         # if they are close to any, send a twilio message
-        return
+        return 'Heartbeat'
     except Exception as e:
         return e.message
 
