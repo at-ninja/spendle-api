@@ -6,6 +6,8 @@ from flask import *
 import psycopg2
 import requests
 import json
+import urllib
+import urllib2
 
 API_KEY = os.environ.get('API_KEY')
 BASE_API = 'http://api.reimaginebanking.com'
@@ -114,15 +116,15 @@ def get_url(path):
     return '{0}{1}?key={2}'.format(BASE_API, path, API_KEY)
 
 def get_request(path, params=None):
-    if params:
-        params.update({'key': API_KEY})
-    else:
-        params = {'key': API_KEY}
+    if params:
+        params.update({'key': API_KEY})
+    else:
+        params = {'key': API_KEY}
 
-    url = "%s%s?%s" % (BASE_API, path, urllib.urlencode(params))
-    result = urllib2.urlopen(url)
-    response_data = result.read()
-    return json.loads(response_data)
+    url = "%s%s?%s" % (BASE_API, path, urllib.urlencode(params))
+    result = urllib2.urlopen(url)
+    response_data = result.read()
+    return json.loads(response_data)
 
 def post_request(path, payload):
     return requests.post(
