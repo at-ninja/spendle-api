@@ -23,7 +23,7 @@
 
 ## Heartbeat/LocationUpdate
 
-**POST** `/user/location`
+**POST** `/location`
 
 ### Request
 
@@ -46,7 +46,7 @@
 
 ## AroundMe
 
-**POST** `/user/aroundme`
+**POST** `/aroundme`
 
 ### Request
 
