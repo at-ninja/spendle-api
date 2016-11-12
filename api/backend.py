@@ -61,12 +61,12 @@ def generate_user():
 @app.route('/location', methods=['POST'])
 def locationUpdate():
     """The user has given us a new data point. see if they are close to a bad place and text them"""
-    
-    # get the data out of the request
-    form = request.json
-    auth_token = form['auth_token']
-    lat, lng = form['lat'], form['lng']
     try:
+        # get the data out of the request
+        form = request.json
+        auth_token = form['auth_token']
+        lat, lng = form['lat'], form['lng']
+    
         list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
     except Exception as err:
         return str(err)
