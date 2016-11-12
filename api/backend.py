@@ -109,7 +109,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\';'.format(
         str(auth_token)))
 
-     nessie_id = ''.join(cur.fetchone())
+    nessie_id = ''.join(cur.fetchone())
     
     list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng})
 
