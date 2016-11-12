@@ -85,6 +85,7 @@ def sendLocations():
     auth_token = form['auth_token']
     lat = form['lat']
     lng = form['lng']
+    limit = form['limit']
     
     list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
 
@@ -97,8 +98,8 @@ def sendLocations():
 		}' for x in list_of_places]
 
     response = make_response('{\
-	    "locations":"{0}",\
-    }'.format(str(list_of_places)))
+	    "locations":"'+'{0}'.format(str(list_of_places))+'",\
+    }')
     response.headers['Content-Type'] = 'application/json'
 
     return response
