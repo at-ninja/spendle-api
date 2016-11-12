@@ -46,8 +46,8 @@ def generate_user():
         response.headers['Content-Type'] = 'application/json'
 
         return response
-    except Exception as e:
-        return e.message
+    except Exception as err:
+        return err.message
 
 @app.route('/location', methods=['POST'])
 def locationUpdate():
@@ -63,8 +63,8 @@ def locationUpdate():
         # Now, we want to somehow query data around the User
         # if they are close to any, send a twilio message
         return 'Heartbeat'
-    except Exception as e:
-        return 'Something is borking'
+    except Exception as err:
+        return 'Something is borking {0}'.format(err.message)
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
