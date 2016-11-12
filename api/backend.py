@@ -38,7 +38,7 @@ def generate_user():
 
         # insert the data into the database
         cur = CONN.cursor()
-        cur.execute('INSERT INTO Users Values ("{0}", "{1}", "{2}"");'.format(
+        cur.execute('INSERT INTO Users Values (\'{0}\', \'{1}\', \'{2}\');'.format(
             ''.join(str(auth_token).split()), nessie_api_id, phone_num))
         cur.commit()
         response = make_response('{\
