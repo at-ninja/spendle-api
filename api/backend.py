@@ -40,7 +40,7 @@ def generate_user():
         cur = CONN.cursor()
         cur.execute('INSERT INTO Users Values (\'{0}\', \'{1}\', \'{2}\');'.format(
             ''.join(str(auth_token).split()), nessie_api_id, phone_num))
-        cur.commit()
+        CONN.commit()
         response = make_response('{\
 	        "auth_token":"{0}",\
         }'.format(str(auth_token)))
