@@ -42,7 +42,7 @@ def generate_user():
             str(auth_token), nessie_api_id, phone_num))
         CONN.commit()
 
-        response = make_response('{"auth_token":"{0}"}'.format(str(auth_token)))
+        response = make_response('{"auth_token":'+'"{0}"'.format(str(auth_token))+'}')
         response.headers['Content-Type'] = 'application/json'
 
         return response
