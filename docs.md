@@ -7,7 +7,11 @@
 ```
 {
 	"phone":"+170828700004",
-	"account_info":{}
+	"account_info":{
+	    "first":"Jake",
+	    "last":"Zarobsky",
+	    "zip":"35401"
+	}
 }
 ```
 
@@ -23,7 +27,7 @@
 
 ## Heartbeat/LocationUpdate
 
-**POST** `/user/location`
+**POST** `/location`
 
 ### Request
 
@@ -46,7 +50,7 @@
 
 ## AroundMe
 
-**POST** `/user/aroundme`
+**POST** `/aroundme`
 
 ### Request
 

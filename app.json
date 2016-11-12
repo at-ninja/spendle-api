@@ -1,0 +1,8 @@
+{
+    "name": "VandyHacks2016",
+    "description": "VandyHacks2016",
+    "image": "heroku/python",
+    "repository": "https://github.com/jzarob/vhapi2016",
+    "keywords": ["python"],
+    "addons": ["heroku-postgresql"]
+}
