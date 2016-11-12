@@ -5,47 +5,55 @@ Back end API support/ logic
 """
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import SocketServer
 import os
-import psycopg2
 import urlparse
+import psycopg2
 
 urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DATABASE_URL"])
+URL = urlparse.urlparse(os.environ["DATABASE_URL"])
 
 CONN = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
+    database=URL.path[1:],
+    user=URL.username,
+    password=URL.password,
+    host=URL.hostname,
+    port=URL.port
 )
 
+
 class Server(BaseHTTPRequestHandler):
+    """Class that controls POST requests"""
+
     def _set_headers(self):
+        """IDK"""
+
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
     def do_GET(self):
-        global CONN
+        """A handler for GET requests"""
+
         self._set_headers()
-        s = "<html><body><h1>'"
+        response = "<html><body><h1>'"
         cur = CONN.cursor()
         cur.execute("SELECT * FROM Users;")
-        s += str(cur.fetchall())
-        s += "'</h1></body></html>"
-        self.wfile.write(s)
+        response += str(cur.fetchall())
+        response += "'</h1></body></html>"
+        self.wfile.write(response)
 
     def do_HEAD(self):
+        """A handler for HEAD requests"""
         self._set_headers()
-        
+
     def do_POST(self):
+        """A handler for POST requests"""
         # Doesn't do anything with posted data
         self._set_headers()
         self.wfile.write("<html><body><h1>POST!</h1></body></html>")
-        
+
 def run(server_class=HTTPServer, handler_class=Server):
+    """Starts the server"""
 
     port = int(os.environ.get("PORT", 5000))
     server_address = ('', port)
@@ -54,5 +62,5 @@ def run(server_class=HTTPServer, handler_class=Server):
     httpd.serve_forever()
 
 if __name__ == "__main__":
-    from sys import argv
-    run()
+    import sys
+    sys.exit(run())
