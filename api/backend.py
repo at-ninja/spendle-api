@@ -105,15 +105,15 @@ def sendLocations():
 
 def get_popular_locations_near_me(auth_token, lat, lng):
     # Get their nessie id
-    #cur = CONN.cursor()
-    #cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\';'.format(
-    #    str(auth_token)))
+    cur = CONN.cursor()
+    cur.execute('SELECT nesie_id FROM Users WHERE id = \'{0}\';'.format(
+        str(auth_token)))
 
-    #nessie_id = ''.join(cur.fetchone())
+    nessie_id = ''.join(cur.fetchone())
     
-    list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng})
+    #list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng})
 
-    return list_of_merchants
+    return []#list_of_merchants
 
 def get_url(path):
     return '{0}{1}?key={2}'.format(BASE_API, path, API_KEY)
