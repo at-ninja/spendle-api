@@ -57,14 +57,14 @@ def locationUpdate():
         form = request.json
         auth_token = form['auth_token']
         lat, lng = form['lat'], form['lng']
-    
+
         list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
 
         # Now, we want to somehow query data around the User
         # if they are close to any, send a twilio message
         return 'Heartbeat'
     except Exception as err:
-        return 'Something is borking {0}'.format(str(err.args))
+        return err
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
