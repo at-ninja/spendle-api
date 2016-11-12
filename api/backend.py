@@ -52,17 +52,19 @@ def generate_user():
 @app.route('/location', methods=['POST'])
 def locationUpdate():
     """The user has given us a new data point. see if they are close to a bad place and text them"""
+    try:
+        # get the data out of the request
+        form = request.json
+        auth_token = form['auth_token']
+        lat, lng = form['lat'], form['lng']
     
-    # get the data out of the request
-    form = request.json
-    auth_token = form['auth_token']
-    lat, lng = form['lat'], form['lng']
-    
-    list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
+        list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
 
-    # Now, we want to somehow query data around the User
-    # if they are close to any, send a twilio message
-    return
+        # Now, we want to somehow query data around the User
+        # if they are close to any, send a twilio message
+        return
+    except Exception as e:
+        return e.message
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
