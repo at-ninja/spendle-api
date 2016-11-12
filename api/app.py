@@ -10,6 +10,17 @@ import os
 import psycopg2
 import urlparse
 
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+CONN = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+)
+
 class Server(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
@@ -17,12 +28,13 @@ class Server(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        global CONN
         self._set_headers()
-        s = "<html><body><h1>"
-        cur = conn.cursor()
+        s = "<html><body><h1>'"
+        cur = CONN.cursor()
         cur.execute("SELECT * FROM Users;")
         s += str(cur.fetchall())
-        s += "</h1></body></html>"
+        s += "'</h1></body></html>"
         self.wfile.write(s)
 
     def do_HEAD(self):
@@ -34,16 +46,6 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write("<html><body><h1>POST!</h1></body></html>")
         
 def run(server_class=HTTPServer, handler_class=Server):
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
-
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
 
     port = int(os.environ.get("PORT", 5000))
     server_address = ('', port)
