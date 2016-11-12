@@ -39,11 +39,10 @@ def generate_user():
         # insert the data into the database
         cur = CONN.cursor()
         cur.execute('INSERT INTO Users Values (\'{0}\', \'{1}\', \'{2}\');'.format(
-            ''.join(str(auth_token).split()), nessie_api_id, phone_num))
+            str(auth_token), nessie_api_id, phone_num))
         CONN.commit()
-        response = make_response('{\
-	        "auth_token":"{0}",\
-        }'.format(str(auth_token)))
+
+        response = make_response('{"auth_token":"{0}"}'.format(str(auth_token)))
         response.headers['Content-Type'] = 'application/json'
 
         return response
