@@ -6,6 +6,7 @@ Back end API support/ logic
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
+import os
 
 class Server(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -25,7 +26,8 @@ class Server(BaseHTTPRequestHandler):
         self._set_headers()
         self.wfile.write("<html><body><h1>POST!</h1></body></html>")
         
-def run(server_class=HTTPServer, handler_class=Server, port=80):
+def run(server_class=HTTPServer, handler_class=Server):
+    port = int(os.environ.get("PORT", 5000))
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print 'Starting httpd...'
@@ -33,8 +35,4 @@ def run(server_class=HTTPServer, handler_class=Server, port=80):
 
 if __name__ == "__main__":
     from sys import argv
-
-    if len(argv) == 2:
-        run(port=int(argv[1]))
-    else:
-        run()
+    run()
