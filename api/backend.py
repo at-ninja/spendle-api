@@ -69,7 +69,7 @@ def locationUpdate():
         lat = form['lat']
         lng = form['lng']
     
-        list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
+        list_of_places, transactions = get_popular_locations_near_me(auth_token, lat, lng)
     except Exception as err:
         return str(err)
     # Now, we want to somehow query data around the User
@@ -88,15 +88,15 @@ def sendLocations():
     lng = form['lng']
     limit = form['limit']
     
-    list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
+    list_of_places, transactions = get_popular_locations_near_me(auth_token, lat, lng)
 
-    """list_of_places = ['{\
-			"name":"Some name",\
-			"lat": 0.0,\
-			"lng": 0.0,\
-			"frequency":1,\
-			"spent":0.0\
-		}' for x in list_of_places]"""
+    list_of_places = ['{\
+			"name":"' + '{0}'.format(x['name']) + '",\
+			"lat":' + '{0}'.format(x['geocode']['lat']) + ',\
+			"lng":' + '{0}'.format(x['geocode']['long']) + ',\
+			"frequency":' + '{0}'.format(sum([1 for y in transactions if y['merchant_id'] == x['_id']])) + ',\
+			"spent":' + '{0}'.format(sum([y['amount'] for y in list_of_places if y['merchant_id'] == x['_id']])) + '\
+		}' for x in list_of_places]
 
     response = make_response('{\
 	    "locations":"'+'{0}'.format(str(list_of_places))+'",\
@@ -134,7 +134,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     
     list_of_merchants = [x for x in list_of_merchants if (x['_id'] in totals.keys()) and (totals[x['_id']] > 10)]
 
-    return list_of_merchants
+    return list_of_merchants, transactions
 
 def get_merchant_id(d):
     return d['merchant_id']
