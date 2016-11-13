@@ -70,12 +70,25 @@ def locationUpdate():
         lng = form['lng']
     
         list_of_places, transactions = get_popular_locations_near_me(auth_token, lat, lng)
+        list_of_places = [{
+			"name":x['name'],
+			"lat":x['geocode']['lat'],
+			"lng":x['geocode']['lng'],
+			"frequency": sum([1 for y in transactions if y['merchant_id'] == x['_id']]),
+			"spent": sum([y['amount'] for y in transactions if y['merchant_id'] == x['_id']])
+		} for x in list_of_places]
+        place = max(list_of_places, key=getFreq)
+
+        return str(place)
     except Exception as err:
         return str(err)
     # Now, we want to somehow query data around the User
     # if they are close to any, send a twilio message
     return ''
-    
+
+def getFreq(d):
+    return d['frequency']
+
 
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
