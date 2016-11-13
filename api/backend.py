@@ -89,13 +89,13 @@ def sendLocations():
     
     list_of_places = get_popular_locations_near_me(auth_token, lat, lng)
 
-    list_of_places = ['{\
+    """list_of_places = ['{\
 			"name":"Some name",\
 			"lat": 0.0,\
 			"lng": 0.0,\
 			"frequency":1,\
 			"spent":0.0\
-		}' for x in list_of_places]
+		}' for x in list_of_places]"""
 
     response = make_response('{\
 	    "locations":"'+'{0}'.format(str(list_of_places))+'",\
@@ -113,6 +113,8 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     nessie_id = ''.join(cur.fetchone())
     if not (nessie_id is not None and nessie_id != ''):
         return []
+
+    return [nessie_id]
 
     accounts = get_request('/customers/{0}/accounts'.format(nessie_id))
     #if len(accounts) > 0:
