@@ -95,7 +95,7 @@ def sendLocations():
 			"lat":' + '{0}'.format(x['geocode']['lat']) + ',\
 			"lng":' + '{0}'.format(x['geocode']['lng']) + ',\
 			"frequency":' + '{0}'.format(sum([1 for y in transactions if y['merchant_id'] == x['_id']])) + ',\
-			"spent":' + '{0}'.format(sum([y['amount'] for y in list_of_places if y['merchant_id'] == x['_id']])) + '\
+			"spent":' + '{0}'.format(sum([y['amount'] for y in transactions if y['merchant_id'] == x['_id']])) + '\
 		}' for x in list_of_places]
 
     response = make_response('{\
