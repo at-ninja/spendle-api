@@ -8,6 +8,7 @@ import requests
 import json
 import urllib
 import urllib2
+import collections
 
 API_KEY = os.environ.get('API_KEY')
 BASE_API = 'http://api.reimaginebanking.com'
@@ -126,7 +127,12 @@ def get_popular_locations_near_me(auth_token, lat, lng):
 
     transactions = get_request('/accounts/{0}/purchases'.format(account_id))
     transactions.sort(key=get_merchant_id)
-    return transactions
+
+    ymap = collections.defaultdict(list)
+    for c in transactions:
+        ymap[c['merchant_id']].append(c)
+    totals =  ([(y, sum(1 for c in clist)) for y,clist in ymap.values()])
+    return totals
 
     return list_of_merchants
 
