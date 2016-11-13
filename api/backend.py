@@ -93,7 +93,7 @@ def sendLocations():
     list_of_places = ['{\
 			"name":"' + '{0}'.format(x['name']) + '",\
 			"lat":' + '{0}'.format(x['geocode']['lat']) + ',\
-			"lng":' + '{0}'.format(x['geocode']['long']) + ',\
+			"lng":' + '{0}'.format(x['geocode']['lng']) + ',\
 			"frequency":' + '{0}'.format(2) + ',\
 			"spent":' + '{0}'.format(3) + '\
 		}' for x in list_of_places]
@@ -116,13 +116,13 @@ def get_popular_locations_near_me(auth_token, lat, lng):
 
     nessie_id = ''.join(cur.fetchone()).strip()
     if not (nessie_id is not None and nessie_id != ''):
-        return []
+        return [], []
 
     accounts = get_request('/customers/{0}/accounts'.format(nessie_id))
     if len(accounts) > 0:
         account = accounts[0]
     else:
-        return []
+        return [], []
 
     account_id = str(account['_id'].strip())
 
