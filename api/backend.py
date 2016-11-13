@@ -121,7 +121,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
         return []
     
     account_id = account['_id'].strip()
-
+    return [account_id]
     list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng, 'rad':1}).get('data', [])
 
     transactions = get_request('accounts/{0}/purchases'.format(account_id))
