@@ -114,8 +114,6 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     if not (nessie_id is not None and nessie_id != ''):
         return []
 
-    return [nessie_id]
-
     accounts = get_request('/customers/{0}/accounts'.format(nessie_id))
     #if len(accounts) > 0:
     #    account = accounts[0]
