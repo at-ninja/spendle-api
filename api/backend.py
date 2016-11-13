@@ -79,7 +79,8 @@ def locationUpdate():
 		} for x in list_of_places]
         place = max(list_of_places, key=getFreq)
 
-        return str(place)
+        # send text message to twilio about place variable
+        
     except Exception as err:
         return str(err)
     # Now, we want to somehow query data around the User
@@ -110,6 +111,9 @@ def sendLocations():
 			"frequency":' + '{0}'.format(sum([1 for y in transactions if y['merchant_id'] == x['_id']])) + ',\
 			"spent":' + '{0}'.format(sum([y['amount'] for y in transactions if y['merchant_id'] == x['_id']])) + '\
 		}' for x in list_of_places]
+
+    if len(list_of_places) > limit:
+        list_of_places = list_of_places[:limit]
 
     response = make_response('{\
 	    "locations":"'+'{0}'.format(str(list_of_places))+'",\
