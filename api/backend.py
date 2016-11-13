@@ -132,7 +132,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     for t in transactions:
         totals[t['merchant_id']] = totals.get(t['merchant_id'], 0) + 1
     
-    
+    list_of_merchants = [x for x in list_of_merchants if x['_id'] in totals.keys() and totals[x['_id']] > 15]
 
     return list_of_merchants
 
