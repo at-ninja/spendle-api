@@ -94,12 +94,9 @@ def sendLocations():
 			"name":"' + '{0}'.format(x['name']) + '",\
 			"lat":' + '{0}'.format(x['geocode']['lat']) + ',\
 			"lng":' + '{0}'.format(x['geocode']['lng']) + ',\
-			"frequency":' + '{0}'.format(2) + ',\
-			"spent":' + '{0}'.format(3) + '\
+			"frequency":' + '{0}'.format(sum([1 for y in transactions if y['merchant_id'] == x['_id']])) + ',\
+			"spent":' + '{0}'.format(sum([y['amount'] for y in list_of_places if y['merchant_id'] == x['_id']])) + '\
 		}' for x in list_of_places]
-
-    """sum([1 for y in transactions if y['merchant_id'] == x['_id']])
-        sum([y['amount'] for y in list_of_places if y['merchant_id'] == x['_id']])"""
 
     response = make_response('{\
 	    "locations":"'+'{0}'.format(str(list_of_places))+'",\
