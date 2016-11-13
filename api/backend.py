@@ -112,7 +112,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
 
     nessie_id = ''.join(cur.fetchone())
     
-    list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng, 'rad':1})
+    list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng, 'rad':1}).get('data', [])
 
     return list_of_merchants
 
