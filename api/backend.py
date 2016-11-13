@@ -90,7 +90,7 @@ def locationUpdate():
 
         # send text message to twilio about place variable
         client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH)
-        message = client.messages.create(to="+12316851234", from_="+17652006198",
+        message = client.messages.create(to=phone_num, from_="+17652006198",
                                      body=str(place))
     except Exception as err:
         return str(err)
