@@ -114,7 +114,7 @@ def post_request(path, payload):
     return requests.post(
         get_url(path),
         data=json.dumps(payload),
-        headers={'content-type':'application/json'},
+        headers={'content-type':'application/json'}
     )
 
 def get_customers():

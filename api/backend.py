@@ -9,9 +9,12 @@ import json
 import urllib
 import urllib2
 import collections
+from twilio.rest import TwilioRestClient
 
 API_KEY = os.environ.get('API_KEY')
 BASE_API = 'http://api.reimaginebanking.com'
+TWILIO_SID = os.environ.get('TWILIO_SID')
+TWILIO_AUTH = os.environ.get('TWILIO_AUTH')
 
 urlparse.uses_netloc.append("postgres")
 URL = urlparse.urlparse(os.environ["DATABASE_URL"])
@@ -68,7 +71,7 @@ def locationUpdate():
         auth_token = form['auth_token']
         lat = form['lat']
         lng = form['lng']
-    
+
         list_of_places, transactions = get_popular_locations_near_me(auth_token, lat, lng)
         list_of_places = [{
 			"name":x['name'],
@@ -79,8 +82,16 @@ def locationUpdate():
 		} for x in list_of_places]
         place = max(list_of_places, key=getFreq)
 
+        cur = CONN.cursor()
+        cur.execute('SELECT Phone_number FROM Users WHERE id = \'{0}\';'.format(
+            str(auth_token).strip()))
+
+        phone_num = ''.join(cur.fetchone()).strip()
+
         # send text message to twilio about place variable
-        
+        client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH)
+        message = client.messages.create(to="+12316851234", from_="+17652006198",
+                                     body=str(place))
     except Exception as err:
         return str(err)
     # Now, we want to somehow query data around the User
@@ -94,14 +105,14 @@ def getFreq(d):
 @app.route('/aroundme', methods=['POST'])
 def sendLocations():
     """The user has given us a new data point. see if they are close to a bad place and return results"""
-    
+
     # get the data out of the request
     form = request.json
     auth_token = form['auth_token']
     lat = form['lat']
     lng = form['lng']
     limit = form['limit']
-    
+
     list_of_places, transactions = get_popular_locations_near_me(auth_token, lat, lng)
 
     list_of_places = ['{\
@@ -148,7 +159,7 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     totals = {}
     for t in transactions:
         totals[t['merchant_id']] = totals.get(t['merchant_id'], 0) + 1
-    
+
     list_of_merchants = [x for x in list_of_merchants if (x['_id'] in totals.keys()) and (totals[x['_id']] > 10)]
 
     return list_of_merchants, transactions
