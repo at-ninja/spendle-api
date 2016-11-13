@@ -115,16 +115,16 @@ def get_popular_locations_near_me(auth_token, lat, lng):
         return []
 
     accounts = get_request('/customers/{0}/accounts'.format(nessie_id))
-    #if len(accounts) > 0:
-    #    account = accounts[0]
-    #else:
-    #    return []
+    if len(accounts) > 0:
+        account = accounts[0]
+    else:
+        return []
     
-    #account_id = account['_id']
+    account_id = account['_id']
 
     list_of_merchants = get_request('/merchants', params={'lat':lat, 'lng':lng, 'rad':1}).get('data', [])
 
-    #transactions = get_request('accounts/{0}/purchases'.format(account_id))
+    transactions = get_request('accounts/{0}/purchases'.format(account_id))
 
     return list_of_merchants
 
