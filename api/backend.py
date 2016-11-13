@@ -128,10 +128,9 @@ def get_popular_locations_near_me(auth_token, lat, lng):
     transactions = get_request('/accounts/{0}/purchases'.format(account_id))
     transactions.sort(key=get_merchant_id)
 
-    ymap = collections.defaultdict(list)
-    for c in transactions:
-        ymap[c['merchant_id']].append(c)
-    totals =  ([(y, sum(1 for c in clist)) for y,clist in ymap.values()])
+    totals = {}
+    for t in transactions:
+        totals[t['merchant_id']] = totals.get(t['merchant_id'], 0) + 1
     return totals
 
     return list_of_merchants
