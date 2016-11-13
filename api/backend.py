@@ -94,7 +94,7 @@ def locationUpdate():
         message = client.messages.create(to=phone_num, from_="+17652006198",
             body="Hey there! We've noticed that you've spent ${0} at the {1} " \
             + "over {2} visits in the last month. Are you sure you want to go again?"
-            .format(round(place['spent'], 2), place['name'].strip(), place['frequency'])
+            .format(round(place['spent'], 2), place['name'].strip(), place['frequency']))
 
     except Exception as err:
         return str(err)
